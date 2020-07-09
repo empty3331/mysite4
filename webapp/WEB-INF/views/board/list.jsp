@@ -39,7 +39,7 @@
 
 			<div id="board">
 				<div id="list">
-					<form action="" method="">
+					<form action="{pageContext.request.contextPath}/board/read" method="get">
 						<div class="form-group text-right">
 							<input type="text">
 							<button type="submit" id=btn_search>검색</button>
@@ -57,14 +57,22 @@
 							</tr>
 						</thead>
 						<tbody>
+						<c:forEach items="${bv}" var="bv" varStatus = "status">
 							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
+								<td>${bv.no}</td>
+								<td class="text-left"><a href="${pageContext.request.contextPath}/board/read?no=${bv.no}">${bv.title}</a></td>
+								<td>${bv.name}</td>
+								<td>${bv.hit}</td>
+								<td>${bv.regDate}</td>
+								
+								<td>
+								<c:if test="${sessionScope.authUser.no == bv.userNo }">
+								<a href="">[삭제]</a>
+								</c:if>
+								</td>
+								
 							</tr>
+						</c:forEach>
 						</tbody>
 					</table>
 		
@@ -87,8 +95,11 @@
 						
 						<div class="clear"></div>
 					</div>
-					<a id="btn_write" href="">글쓰기</a>
-				
+					
+					<c:if test="${!empty sessionScope.authUser }">
+					<a id="btn_write" href="${pageContext.request.contextPath}/board/writeForm">글쓰기</a>
+					</c:if>
+					
 				</div>
 				<!-- //list -->
 			</div>

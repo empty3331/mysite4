@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+		<!-- 글 리스트 -->
+		<select id="list" resultType="com.javaex.vo.BoardVo">
+		<![CDATA[
+		SELECT  b.no,
+				b.title,
+				u.name,
+				b.hit,
+				reg_date as "regDate",
+				b.user_no as "userNo"
+		FROM board b, users u
+		WHERE b.user_no = u.no
+		 ORDER by b.no DESC
+		]]>
+		</select>
+		
+		<!-- 글 읽어오기 -->
+		<select id="read" parameterType="int"
+		resultType="com.javaex.vo.BoardVo">
+		<![CDATA[
+		SELECT b.no,
+				u.name,
+				b.hit,
+				reg_date as "regDate",
+				b.title,
+				b.content,
+				b.user_no "userNo"
+		FROM board b left outer join users u
+		ON b.user_no = u.no
+		where b.no = #{no}
+		ORDER by b.no DESC
+		]]>
+		</select>
+		
+		<!-- 글쓰기 -->
+		<insert id="insert" parameterType="com.javaex.vo.BoardVo">
+		<![CDATA[
+		INSERT INTO board
+		VALUES (seq_board_no.nextval,#{title},#{content},0,SYSDATE,#{userNo})
+		]]>
+		</insert>
+
+
+</mapper>
