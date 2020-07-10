@@ -57,7 +57,8 @@ public class BoardDao {
 	public List<BoardVo> search(String key) {
 		System.out.println("다오:검색");
 		System.out.println(key);
-		return sqlSession.selectList("board.search",key);
+		List<BoardVo> bList = sqlSession.selectList("board.list",key);
+		return bList;
 	}
 
 }
