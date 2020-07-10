@@ -49,6 +49,7 @@ public class BoardController {
 		System.out.println("컨트롤러:글쓰기");
 		bService.write(bVo);
 		
+		System.out.println(bVo.toString());
 		return "redirect:/board/list";
 	}
 	
