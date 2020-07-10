@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>     
-
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    	
+	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet"
+	type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/board.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -22,6 +22,7 @@
 
 		<c:import url="/WEB-INF/views/include/boardAside.jsp"></c:import>
 		<!-- //aside -->
+
 
 		<div id="content">
 
@@ -39,49 +40,45 @@
 			<!-- //content-head -->
 
 			<div id="board">
-				<div id="read">
-					<form action="${pageContext.request.contextPath}/board" method="get">
+				<div id="modifyForm">
+					<form action="${pageContext.request.contextPath}/board/modify" method="get">
 						<!-- 작성자 -->
 						<div class="form-group">
-							<span class="form-text">작성자</span>
-							<span class="form-value">${bb.name }</span>
+							<span class="form-text">작성자</span> <span class="form-value">${no.name }</span>
 						</div>
-						
+
 						<!-- 조회수 -->
 						<div class="form-group">
-							<span class="form-text">조회수</span>
-							<span class="form-value">${bb.hit }</span>
+							<span class="form-text">조회수</span> <span class="form-value">${no.hit }</span>
 						</div>
-						
+
 						<!-- 작성일 -->
 						<div class="form-group">
-							<span class="form-text">작성일</span>
-							<span class="form-value">${bb.regDate }</span>
+							<span class="form-text">작성일</span> <span class="form-value">${no.regDate }</span>
 						</div>
-						
+
 						<!-- 제목 -->
 						<div class="form-group">
-							<span class="form-text">제 목</span>
-							<span class="form-value">${bb.title }</span>
+							<label class="form-text" for="txt-title">제목</label> <input
+								type="text" id="txt-title" name="title" value="${no.title }">
 						</div>
-					
+
+
+
 						<!-- 내용 -->
-						<div id="txt-content">
-							<span class="form-value" >
-								${bb.content }
-							</span>
+						<div class="form-group">
+							<textarea id="txt-content" name="content">${no.content }</textarea>
 						</div>
+
+						<a id="btn_cancel" href="${pageContext.request.contextPath}/board/read?no=${no.no}">취소</a>
+						<button id="btn_modify" type="submit">수정</button>
 						
-						<c:if test="${sessionScope.authUser.no eq bb.userNo }">
-						<a id="btn_modify" href="${pageContext.request.contextPath}/board/modifyForm?no=${bb.no}">수정</a>
-						</c:if>
-						
-						<a id="btn_modify" href="${pageContext.request.contextPath}/board/list">목록</a>
-						
+						<input type="hidden" name="no" value="${no.no }" >
+
 					</form>
-	                <!-- //form -->
+					<!-- //form -->
 				</div>
-				<!-- //read -->
+				<!-- //modifyForm -->
 			</div>
 			<!-- //board -->
 		</div>

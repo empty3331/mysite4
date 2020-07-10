@@ -44,8 +44,13 @@ public class BoardService {
 	//게시물삭제
 	public int delete(BoardVo bVo) {
 		System.out.println("서비스:게시물삭제");
-		System.out.println("서비스"+bVo.toString());
 		return bDao.delete(bVo);
+	}
+	
+	//게시물수정
+	public int update(BoardVo bVo) {
+		System.out.println("서비스:게시물수정");
+		return bDao.update(bVo);
 	}
 	
 }

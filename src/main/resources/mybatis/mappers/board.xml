@@ -48,8 +48,18 @@
 		<delete id="delete" parameterType="int">
 		<![CDATA[
 		delete from board
-		where no = ${no}
+		where no = #{no}
 		]]>
 		</delete>
+		
+		<!-- 글수정 -->
+		<update id="update" parameterType="com.javaex.vo.BoardVo">
+		<![CDATA[
+		update board
+		set title = #{title},
+			content = #{content}
+		where no = #{no}
+		]]>
+		</update>
 
 </mapper>

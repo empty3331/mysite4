@@ -56,11 +56,28 @@ public class BoardController {
 	@RequestMapping("/delete" )
 	private String delete(@ModelAttribute BoardVo bVo) {
 		System.out.println("컨트롤러:삭제");
-		System.out.println("컨트롤러"+bVo.toString());
 		bService.delete(bVo);
 		return "redirect:/board/list";
 	}
 	
+	@RequestMapping("/modifyForm" )
+	private String modifyForm(Model model,@RequestParam("no") int no) {
+		System.out.println("컨트롤러:수정폼");
+		
+		model.addAttribute("no",bService.read(no));
+		
+		System.out.println(model.toString());
+		
+		return "board/modifyForm";
+	}
 
+	@RequestMapping("/modify" )
+	private String modify(@ModelAttribute BoardVo bVo) {
+		System.out.println("컨트롤러:수정");
+		
+		bService.update(bVo);
 
+		return "redirect:/board/read?no="+bVo.getNo();
+	}
+	
 }

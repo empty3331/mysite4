@@ -37,10 +37,13 @@ public class BoardDao {
 	//게시물삭제
 	public int delete(BoardVo bVo) {
 		System.out.println("다오:게시물삭제");
-		System.out.println("다오"+bVo.toString());
 		return sqlSession.delete("board.delete",bVo);
 	}
 	
-	
+	//게시물 수정
+	public int update(BoardVo bVo) {
+		System.out.println("다오:게시물수정");
+		return sqlSession.update("board.update", bVo);
+	}
 
 }
