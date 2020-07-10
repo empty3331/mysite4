@@ -79,4 +79,22 @@ public class BoardController {
 		return "redirect:/board/read?no="+bVo.getNo();
 	}
 	
+	@RequestMapping("/search" )
+	private String search(@RequestParam("key") String key, Model model) {
+		System.out.println("컨트롤러:검색");
+		List<BoardVo> bv = bService.search(key);
+		System.out.println(bv.toString());
+		
+		model.addAttribute("bv",bv);
+		
+		
+		
+		System.out.println(model.toString());
+		
+		
+		
+		return "board/list";
+		
+	}
+	
 }

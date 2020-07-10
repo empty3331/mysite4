@@ -52,5 +52,12 @@ public class BoardDao {
 		System.out.println(no);
 		return sqlSession.update("board.hitup", no);
 	}
+	
+	//게시물 검색
+	public List<BoardVo> search(String key) {
+		System.out.println("다오:검색");
+		System.out.println(key);
+		return sqlSession.selectList("board.search",key);
+	}
 
 }

@@ -70,4 +70,23 @@
 		where no = #{no}
 		]]>
 		</update>
+		
+		<!-- 검색 -->
+		<select id="search" parameterType="String"
+		resultType="com.javaex.vo.BoardVo">
+		<![CDATA[
+		SELECT  b.no,
+				b.title,
+				u.name,
+				b.hit,
+				reg_date as "regDate",
+				b.user_no as "userNo"
+		FROM board b, users u
+		WHERE b.user_no = u.no
+        AND b.title like '%' || #{keyword} || '%'
+		 ORDER by b.no DESC
+		]]>
+		</select>
+		
+		
 </mapper>

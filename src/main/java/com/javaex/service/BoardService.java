@@ -54,6 +54,12 @@ public class BoardService {
 		return bDao.update(bVo);
 	}
 	
-	
+	//게시물검색
+	public List<BoardVo> search(String key){
+		System.out.println("서비스:검색");
+		List<BoardVo> bv = bDao.search(key);
+		System.out.println(bv.toString());
+		return bv;
+	}
 	
 }
