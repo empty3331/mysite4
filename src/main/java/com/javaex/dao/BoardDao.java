@@ -45,5 +45,12 @@ public class BoardDao {
 		System.out.println("다오:게시물수정");
 		return sqlSession.update("board.update", bVo);
 	}
+	
+	//조회수증가
+	public int hitup(int no) {
+		System.out.println("다오:조회수증가");
+		System.out.println(no);
+		return sqlSession.update("board.hitup", no);
+	}
 
 }

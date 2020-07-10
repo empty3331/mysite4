@@ -32,9 +32,8 @@ public class BoardController {
 	@RequestMapping("/read" )
 	private String read(@RequestParam("no") int no,Model model) {
 		System.out.println("컨트롤러:읽어오기");
-		
 		model.addAttribute("bb",bService.read(no));
-		
+
 		return "board/read";
 		
 	}

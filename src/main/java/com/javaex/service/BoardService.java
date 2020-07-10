@@ -31,6 +31,7 @@ public class BoardService {
 		System.out.println("서비스:게시물읽기");
 		
 		System.out.println(no);
+		bDao.hitup(no);
 		
 		return bDao.read(no);
 	}
@@ -52,5 +53,7 @@ public class BoardService {
 		System.out.println("서비스:게시물수정");
 		return bDao.update(bVo);
 	}
+	
+	
 	
 }
