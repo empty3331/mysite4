@@ -33,5 +33,14 @@ public class BoardDao {
 		System.out.println("다오:게시물쓰기");
 		return sqlSession.insert("board.insert",bVo);
 	}
+	
+	//게시물삭제
+	public int delete(BoardVo bVo) {
+		System.out.println("다오:게시물삭제");
+		System.out.println("다오"+bVo.toString());
+		return sqlSession.delete("board.delete",bVo);
+	}
+	
+	
 
 }

@@ -41,15 +41,23 @@ public class BoardController {
 	
 	@RequestMapping("/writeForm" )
 	private String writeForm() {
-		
+		System.out.println("컨트롤러:글쓰기폼");
 		return "board/writeForm";
 	}
 	
 	@RequestMapping("/write" )
 	private String write(@ModelAttribute BoardVo bVo) {
-		
+		System.out.println("컨트롤러:글쓰기");
 		bService.write(bVo);
 		
+		return "redirect:/board/list";
+	}
+	
+	@RequestMapping("/delete" )
+	private String delete(@ModelAttribute BoardVo bVo) {
+		System.out.println("컨트롤러:삭제");
+		System.out.println("컨트롤러"+bVo.toString());
+		bService.delete(bVo);
 		return "redirect:/board/list";
 	}
 	

@@ -41,4 +41,11 @@ public class BoardService {
 		return bDao.insert(bVo);
 	}
 	
+	//게시물삭제
+	public int delete(BoardVo bVo) {
+		System.out.println("서비스:게시물삭제");
+		System.out.println("서비스"+bVo.toString());
+		return bDao.delete(bVo);
+	}
+	
 }

@@ -67,7 +67,7 @@
 								
 								<td>
 								<c:if test="${sessionScope.authUser.no == bv.userNo }">
-								<a href="">[삭제]</a>
+								<a href="${pageContext.request.contextPath}/board/delete?no=${bv.no}">[삭제]</a>
 								</c:if>
 								</td>
 								

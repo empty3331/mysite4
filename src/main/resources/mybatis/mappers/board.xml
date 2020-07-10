@@ -43,6 +43,13 @@
 		VALUES (seq_board_no.nextval,#{title},#{content},0,SYSDATE,#{userNo})
 		]]>
 		</insert>
-
+		
+		<!-- 글삭제 -->
+		<delete id="delete" parameterType="int">
+		<![CDATA[
+		delete from board
+		where no = ${no}
+		]]>
+		</delete>
 
 </mapper>
