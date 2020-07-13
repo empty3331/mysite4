@@ -1,6 +1,7 @@
 package com.javaex.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,22 @@ public class BoardDao {
 	private SqlSession sqlSession;
 	
 	//게시판 목록
-	public List<BoardVo> getBoardList(){
+	public List<BoardVo> getBoardList(Map<String,Object> listMap){
 		System.out.println("다오:리스트");
-		List<BoardVo> bList = sqlSession.selectList("board.list");
+		System.out.println(listMap.toString());
+		List<BoardVo> print = sqlSession.selectList("board.list",listMap);
+		System.out.println(print);
 		
-		return bList;
+		return print;
 	}
+	
+	//페이지 읽기
+	public int pageCount(String keyword) {
+		System.out.println("다오:페이지 숫자");
+		return sqlSession.selectOne("board.pageCount",keyword);		
+	}
+	
+	
 	
 	//게시물 읽기
 	public BoardVo read(int no) {
@@ -54,10 +65,10 @@ public class BoardDao {
 	}
 	
 	//게시물 검색
-	public List<BoardVo> search(String key) {
+	public List<BoardVo> search(String keyword) {
 		System.out.println("다오:검색");
-		System.out.println(key);
-		List<BoardVo> bList = sqlSession.selectList("board.list",key);
+		System.out.println(keyword);
+		List<BoardVo> bList = sqlSession.selectList("board.list",keyword);
 		return bList;
 	}
 

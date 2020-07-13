@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,13 @@ public class BoardController {
 	
 	
 	@RequestMapping("/list" )
-	private String list(@ModelAttribute BoardVo bVo, Model model) {
+	private String list(@RequestParam("page") int page, Model model) {
 		System.out.println("컨트롤러:리스트");
-		List<BoardVo> bv = bService.blist(bVo);
+		List<BoardVo> bv = bService.blist(page,"");
+		Map<String, Integer> p = bService.pageCount("");
+		
 		model.addAttribute("bv", bv);
+		model.addAttribute("p", p);
 		
 		return "board/list";
 	}
@@ -50,7 +54,7 @@ public class BoardController {
 		bService.write(bVo);
 		
 		System.out.println(bVo.toString());
-		return "redirect:/board/list";
+		return "redirect:/board/list?page=1";
 	}
 	
 	@RequestMapping("/delete" )
@@ -81,18 +85,13 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/search" )
-	private String search(@RequestParam("key") String key, Model model) {
+	private String search(@RequestParam("keyword") String keyword,@RequestParam("page") int page, Model model) {
 		System.out.println("컨트롤러:검색");
-		List<BoardVo> bv = bService.search(key);
-		System.out.println(bv.toString());
+		List<BoardVo> bv = bService.blist(page,keyword);
+		Map<String, Integer> p = bService.pageCount(keyword);
 		
-		model.addAttribute("bv",bv);
-		
-		
-		
-		System.out.println(model.toString());
-		
-		
+		model.addAttribute("bv", bv);
+		model.addAttribute("p", p);
 		
 		return "board/list";
 		

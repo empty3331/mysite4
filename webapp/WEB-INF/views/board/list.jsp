@@ -41,7 +41,8 @@
 				<div id="list">
 					<form action="${pageContext.request.contextPath}/board/search" method="get">
 						<div class="form-group text-right">
-							<input type="text" name="key">
+							<input type="text" name="keyword">
+							<input type="hidden" name="page" value="1">
 							<button type="submit" id=btn_search>검색</button>
 						</div>
 					</form>
@@ -78,18 +79,17 @@
 		
 					<div id="paging">
 						<ul>
-							<li><a href="">◀</a></li>
-							<li><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">4</a></li>
-							<li class="active"><a href="">5</a></li>
-							<li><a href="">6</a></li>
-							<li><a href="">7</a></li>
-							<li><a href="">8</a></li>
-							<li><a href="">9</a></li>
-							<li><a href="">10</a></li>
-							<li><a href="">▶</a></li>
+							<li><a href="${pageContext.request.contextPath}/board/list?page=${page}-1">◀</a></li>
+							
+							<c:forEach var="page" begin="1" end="${p.count}">
+
+								<li <c:if test="${param.page eq page}"> class="active" </c:if>>
+									<a
+									href="${pageContext.request.contextPath}/board/list?page=${page}">${page}</a>
+								</li>
+
+							</c:forEach>
+							<li><a href="${pageContext.request.contextPath}/board/list?page=${page}+1">▶</a></li>
 						</ul>
 						
 						

@@ -1,6 +1,8 @@
 package com.javaex.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +18,37 @@ public class BoardService {
 	
 	
 	//게시판리스트
-	public List<BoardVo> blist(BoardVo bVo){
+	public List<BoardVo> blist(int page,String keyword){
 		System.out.println("서비스:리스트");
+
+		Map<String,Object> listMap = new HashMap<>();
 		
-		List<BoardVo> bv = bDao.getBoardList();
+		listMap.put("start", 1+(page-1)*5 );
+		listMap.put("end", 1+(page-1)*5+(5-1));
+		listMap.put("keyword", keyword);
+		
+		List<BoardVo> bv = bDao.getBoardList(listMap);
 		
 		System.out.println(bv.toString());
 		
 		return bv;
 	}
+	
+	//페이지 읽기
+	public Map<String, Integer> pageCount(String keyword) {
+		System.out.println("서비스:페이지 카운트");
+		
+		Map<String, Integer> cMap = new HashMap<>();
+		cMap.put("countAll", bDao.pageCount(keyword));
+		cMap.put("count", (int)Math.ceil(cMap.get("countAll")/5.0));
+		
+		System.out.println(cMap.toString());
+		
+		return cMap;
+		
+		
+	}
+	
 	
 	//게시물 읽기
 	public BoardVo read(int no) {
@@ -32,7 +56,7 @@ public class BoardService {
 		
 		System.out.println(no);
 		bDao.hitup(no);
-		
+
 		return bDao.read(no);
 	}
 	

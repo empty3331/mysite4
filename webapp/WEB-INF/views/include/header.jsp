@@ -4,21 +4,21 @@
 
 <div id="header">
 	<h1>
-		<a href="/mysite4/main">MySite</a>
+		<a href="${pageContext.request.contextPath}/main">MySite</a>
 	</h1>
 
 	<c:choose>
 		<c:when test="${sessionScope.authUser eq null }">
 			<ul>
-				<li><a href="/mysite4/user/loginForm">로그인</a></li>
-				<li><a href="/mysite4/user/joinForm">회원가입</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/loginForm">로그인</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/joinForm">회원가입</a></li>
 			</ul>
 		</c:when>
 		<c:otherwise>
 			<ul>
 				<li>${sessionScope.authUser.name }님안녕하세요!</li>
-				<li><a href="/mysite4/user/logout">로그아웃</a></li>
-				<li><a href="/mysite4/user/modifyForm">회원정보수정</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/modifyForm">회원정보수정</a></li>
 			</ul>
 		</c:otherwise>
 	</c:choose>
@@ -28,9 +28,9 @@
 
 <div id="nav">
 	<ul>
-		<li><a href="/mysite4/guest/addlist">방명록</a></li>
+		<li><a href="${pageContext.request.contextPath}/guest/addlist">방명록</a></li>
 		<li><a href="">갤러리</a></li>
-		<li><a href="/mysite4/board/list">게시판</a></li>
+		<li><a href="${pageContext.request.contextPath}/board/list?page=1">게시판</a></li>
 		<li><a href="">입사지원서</a></li>
 	</ul>
 	<div class="clear"></div>
