@@ -8,16 +8,16 @@
 		<![CDATA[
 		SELECT no,title,name,hit,reg_date as "regDate"  , user_no as "userNo"
 		FROM (SELECT ROWNUM rn, no,title,name,hit,reg_date,user_no
-        FROM (SELECT    b.no no,
-                        b.title title,
-                        u.name name,
-                        b.hit hit,
-                        reg_date,
-                        b.user_no
-                FROM board b, users u
-                WHERE b.user_no = u.no
-                and title like '%'||#{keyword}||'%'
-                ORDER BY b.no DESC))
+		        FROM (SELECT    b.no no,
+		                        b.title title,
+		                        u.name name,
+		                        b.hit hit,
+		                        reg_date,
+		                        b.user_no
+		                FROM board b, users u
+		                WHERE b.user_no = u.no
+		                and title like '%'||#{keyword}||'%'
+		                ORDER BY b.no DESC))
                 WHERE rn >= #{start} AND rn<= #{end}
 			
 		]]>
