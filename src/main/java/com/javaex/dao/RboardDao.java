@@ -1,5 +1,6 @@
 package com.javaex.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,36 @@ public class RboardDao {
 		System.out.println(keyword);
 		return sqlSession.selectOne("rboard.rpageCount", keyword);
 	}
+	
+	//게시글 읽기
+	public RboardVo read(int no) {
+		System.out.println("다오:게시물 읽기");
+		return sqlSession.selectOne("rboard.read", no);
+		
+	}
+	
+	//조회수 증가
+	public int hitup(int no) {
+		System.out.println("다오:조회수 증가");
+		return sqlSession.update("rboard.hit", no);
+	}
+	
+	
+	//글쓰기
+	public int insert(RboardVo rvo) {
+		System.out.println("다오:게시물 쓰기");
+		System.out.println("다오"+rvo.toString());
+		return sqlSession.insert("rboard.rinsert", rvo);
+	}
 
 
+	//글 순서 증가
+	public int order(int group_no, int order_no) {
+		System.out.println("다오:글 순서 증가");
+		Map<String,Integer> oMap = new HashMap<>();
+		oMap.put("group_no", group_no);
+		oMap.put("order_no", order_no);
+		
+		return sqlSession.update("rboard.rodernum", oMap);
+	}
 }

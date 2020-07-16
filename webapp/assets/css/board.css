@@ -185,6 +185,19 @@
 	cursor: pointer;
 }
 
+#board #modifyForm #btn_re {
+	border: 1px solid #A6A6A6;
+	border-radius: 2px;
+	background-color: #E5E5E5;
+	padding: 5px 20px 5px 20px;
+	margin: 0px 0px 0px 10px;
+	font-size: 14px;
+	float: right;
+	cursor: pointer;
+	
+}
+
+
 
 /****************************************************************/
 /* 게시판 글읽기 ************************************************/

@@ -47,8 +47,49 @@ public class RboardService {
 		return rMap;
 	}
 	
+	//게시글 읽기
+	public RboardVo read(int no,String type) {
+		System.out.println("서비스:글 읽기");
+		
+		if("read".equals(type)) {
+			rDao.hitup(no);
+			RboardVo rVo = rDao.read(no);
+			return rVo;
+		} else {
+			RboardVo rVo = rDao.read(no);
+			return rVo;			
+		}
+	}
 	
 	
+	
+	//게시물쓰기
+	public int write(RboardVo rVo,String type) {
+		System.out.println("서비스:글쓰기");
+	
+		System.out.println(type);
+		
+		if("rootWrite".equals(type)) {
+			System.out.println("서비스"+rVo.toString());
+			return rDao.insert(rVo);
+		} else {
+			int group_no =  rVo.getGroup_no();			
+			int order_no = rVo.getOrder_no();
+			int depth = rVo.getDepth();
+			
+			
+			rDao.order(group_no, order_no);
+			
+			System.out.println("서비스"+rVo.toString());
+			
+			rVo.setOrder_no(order_no+1);
+			rVo.setDepth(depth+1);
+			return rDao.insert(rVo);			
+		}
+		
+	}
+	
+
 	
 
 }

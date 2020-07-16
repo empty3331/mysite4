@@ -3,37 +3,97 @@
 
 <mapper namespace="rboard">
 
-<!-- 글 리스트 -->
-<select id="rlist" parameterType="map" resultType="com.javaex.vo.RboardVo">
-<![CDATA[
-SELECT no,user_no,title,content,hit,reg_date,group_no,order_no,depth,name
-FROM (SELECT ROWNUM rn,no,user_no,title,content,hit,reg_date,group_no,order_no,depth,name
-        FROM (SELECT r.no,
-                     r.user_no,
-                     r.title,
-                     r.content,
-                     r.hit, 
-                     r.reg_date,
-                     r.group_no,
-                     r.order_no,
-                     r.depth,
-                     u.name
-              FROM rboard r, users u
-              WHERE u.no = r.user_no
-              AND r.title like '%'||#{keyword}||'%'
-              ORDER BY r.no DESC))
-WHERE rn >=#{start}  AND rn<= #{end}
-]]>
-</select>
+	<!-- 글 리스트 -->
+	<select id="rlist" parameterType="map"
+		resultType="com.javaex.vo.RboardVo">
+		<![CDATA[
+		SELECT no,user_no,title,content,hit,reg_date,group_no,order_no,depth,name
+		FROM (SELECT ROWNUM rn,no,user_no,title,content,hit,reg_date,group_no,order_no,depth,name
+		        FROM (SELECT r.no,
+		                     r.user_no,
+		                     r.title,
+		                     r.content,
+		                     r.hit, 
+		                     r.reg_date,
+		                     r.group_no,
+		                     r.order_no,
+		                     r.depth,
+		                     u.name
+		              FROM rboard r, users u
+		              WHERE u.no = r.user_no
+		              AND r.title like '%'||#{keyword}||'%'
+		              ORDER BY r.no DESC))
+		WHERE rn >=#{start}  AND rn<= #{end}
+		]]>
+	</select>
 
-<!-- 글 페이지 -->
-<select id="rpageCount" parameterType="String" resultType="int">
-<![CDATA[
-SELECT COUNT(no)
-FROM rboard
-WHERE title like '%'||#{keyword} || '%'
-]]>
-</select>
+	<!-- 글 페이지 -->
+	<select id="rpageCount" parameterType="String" resultType="int">
+	<![CDATA[
+	SELECT COUNT(no)
+	FROM rboard
+	WHERE title like '%'||#{keyword} || '%'
+	]]>
+		</select>
 
+
+	<!-- 글쓰기 -->
+	<insert id="rinsert" parameterType="com.javaex.vo.RboardVo">
+	<choose>
+	<when test="group_no == 0 or group_no == '' ">
+	<![CDATA[
+	INSERT INTO rboard
+	VALUES (seq_rboard_no.nextval,#{user_no},#{title},#{content},0,sysdate,seq_rboard_no.nextval,1,0)
+	]]>
+	</when>
+	<otherwise>
+	<![CDATA[
+	INSERT INTO rboard
+	VALUES (seq_rboard_no.nextval,#{user_no},#{title},#{content},0,sysdate,#{group_no},#{order_no},#{depth})
+	]]>
+	</otherwise>
+	</choose>
+	</insert>
+	
+	<!-- 오더넘버 증가 -->
+	<update id="rodernum" parameterType="com.javaex.vo.RboardVo" >
+	<![CDATA[
+	UPDATE rboard
+	SET order_no = order_no+1
+	WHERE group_no = #{group_no}
+	AND order_no > #{order_no}
+	
+	]]>
+	</update>
+	
+	<!-- 글 읽기 -->
+	<select id="read" parameterType="int"
+		resultType="com.javaex.vo.RboardVo">
+	<![CDATA[
+	select  r.no no,
+			r.title title,
+			r.content content,
+			r.hit hit,
+			r.reg_date reg_date,
+			r.user_No user_no,
+			u.name  name,
+			r.group_no group_no,
+			r.order_no order_no,
+			r.depth
+			from rboard r, users u
+			where r.user_No = u.no
+			and r.no = #{no}
+	
+	]]>
+	</select>
+	
+	<!-- 조회수 -->
+	<update id="hit" parameterType="int">
+	<![CDATA[
+	update rboard 
+	set hit = hit+1
+	where no = #{no}
+	]]>
+	</update>
 
 </mapper>

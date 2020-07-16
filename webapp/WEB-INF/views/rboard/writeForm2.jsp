@@ -41,9 +41,11 @@
 
 			<div id="board">
 				<div id="writeForm">
-					<form action="${pageContext.request.contextPath}/rboard/write" method="get">
-					<input type="hidden" name="userNo" value="${authUser.no}">
-					
+					<form action="${pageContext.request.contextPath}/rboard/rwrite" method="get">
+					<input type="hidden" name="user_no" value="${authUser.no}">
+					<input type="hidden" name="group_no" value="${rVo.group_no}">
+					<input type="hidden" name="order_no" value="${rVo.order_no}">
+					<input type="hidden" name="depth" value="${rVo.depth}">
 						<!-- 제목 -->
 						<div class="form-group">
 							<label class="form-text" for="txt-title">제목</label>
