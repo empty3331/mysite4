@@ -41,7 +41,7 @@
 
 			<div id="board">
 				<div id="modifyForm">
-					<form action="${pageContext.request.contextPath}/board/modify" method="get">
+					<form action="${pageContext.request.contextPath}/rboard/modify" method="get">
 						<!-- 작성자 -->
 						<div class="form-group">
 							<span class="form-text">작성자</span> <span class="form-value">${no.name }</span>
@@ -54,7 +54,7 @@
 
 						<!-- 작성일 -->
 						<div class="form-group">
-							<span class="form-text">작성일</span> <span class="form-value">${no.regDate }</span>
+							<span class="form-text">작성일</span> <span class="form-value">${no.reg_date }</span>
 						</div>
 
 						<!-- 제목 -->
@@ -70,7 +70,7 @@
 							<textarea id="txt-content" name="content">${no.content }</textarea>
 						</div>
 
-						<a id="btn_cancel" href="${pageContext.request.contextPath}/board/read?no=${no.no}">취소</a>
+						<a id="btn_cancel" href="${pageContext.request.contextPath}/rboard/read?no=${no.no}">취소</a>
 						<button id="btn_modify" type="submit">수정</button>
 						
 						<input type="hidden" name="no" value="${no.no }" >

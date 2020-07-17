@@ -61,7 +61,9 @@
 						<c:forEach items="${rv}" var="rv" varStatus = "status">
 							<tr>
 								<td>${rv.no}</td>
-								<td class="text-left"><a href="${pageContext.request.contextPath}/rboard/read?no=${rv.no}">${rv.title}</a></td>
+								<td class="text-left">
+								<c:forEach begin="1" end="${rv.depth }">&nbsp;&nbsp;</c:forEach>
+								<a href="${pageContext.request.contextPath}/rboard/read?no=${rv.no}">${rv.title}</a></td>
 								<td>${rv.name}</td>
 								<td>${rv.hit}</td>
 								<td>${rv.reg_date}</td>

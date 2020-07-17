@@ -22,7 +22,7 @@
 		              FROM rboard r, users u
 		              WHERE u.no = r.user_no
 		              AND r.title like '%'||#{keyword}||'%'
-		              ORDER BY r.no DESC))
+		              ORDER BY r.group_no DESC,order_no asc))
 		WHERE rn >=#{start}  AND rn<= #{end}
 		]]>
 	</select>
@@ -93,6 +93,17 @@
 	update rboard 
 	set hit = hit+1
 	where no = #{no}
+	]]>
+	</update>
+	
+	<!--수정하기-->
+	<update id="update" parameterType="int">
+	<![CDATA[
+	update rboard 
+	set title = #{title},
+	    content = #{content}
+	where no = #{no}	
+	and user_no = #{user_no}
 	]]>
 	</update>
 

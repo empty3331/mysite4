@@ -37,4 +37,17 @@
 		]]>
 	</update>
 	
+	<!--회원정보 가져오기 ajax -->
+	<select id="selectById" parameterType="String"
+	resultType="com.javaex.vo.UserVo">
+	<![CDATA[
+	SELECT no,id
+	FROM users
+	WHERE id = #{id}
+	
+	]]>
+	</select>
+	
+	
+	
 </mapper>

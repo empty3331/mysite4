@@ -16,7 +16,7 @@ public class GuestBookService {
 	private GuestBookDao gbDao;
 	
 	// 방명록 리스트
-	public List<GuestBookVo> gbList(GuestBookVo gbVo) {
+	public List<GuestBookVo> gbList() {
 		System.out.println("service:guestbookList");
 		
 		  List<GuestBookVo> gb = gbDao.getGuestBookList();
@@ -49,5 +49,4 @@ public class GuestBookService {
 	}
 	
 	
-
 }

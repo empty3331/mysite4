@@ -33,6 +33,21 @@ public class UserService {
 		return userDao.update(userVo);
 		
 	}
+	
+	//아이디체크
+	public boolean checkId(String id) {
+		System.out.println("userService:checkId");
+		UserVo uVo = userDao.selectUser2(id);
+		boolean result = true;
+		
+		if(uVo ==null) {
+			result = true;
+		} else {
+			result = false;
+		}
+		
+		return result;
+	}
 
 	
 	

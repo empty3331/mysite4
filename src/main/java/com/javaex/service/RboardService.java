@@ -88,6 +88,13 @@ public class RboardService {
 		}
 		
 	}
+
+	//게시물수정
+	public int modify(RboardVo rVo) {
+		System.out.println("서비스:수정하기");
+		System.out.println("서비스"+rVo.toString());
+		return rDao.modify(rVo);
+	}
 	
 
 	

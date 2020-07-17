@@ -21,9 +21,9 @@ public class GuestBookController {
 	
 	
 	@RequestMapping("/addlist" )
-	public String addList(@ModelAttribute GuestBookVo gbVo,Model model) {
+	public String addList(Model model) {
 		System.out.println("controller:addlist");
-		List<GuestBookVo> gb = gbService.gbList(gbVo);
+		List<GuestBookVo> gb = gbService.gbList();
 		
 		model.addAttribute("gb", gb);
 		
@@ -58,5 +58,14 @@ public class GuestBookController {
 		return "redirect:addlist";
 		
 	}	
+	
+	//ajax 방명록
+	@RequestMapping("/ajaxList" )
+	public String ajaxList() {
+		System.out.println("ajaxList");
+		
+		return"guestbook/ajaxList";
+	}
+	
 
 }

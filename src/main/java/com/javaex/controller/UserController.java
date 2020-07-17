@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
@@ -86,6 +88,15 @@ public class UserController {
 		return"redirect:/main";
 	}
 	
-	
+	//아이디체크(ajax용)//자료 잘 안받아짐
+	@ResponseBody
+	@RequestMapping("/idcheck")
+	public boolean idcheck(@RequestParam("userId") String id) {
+		
+		System.out.println("userController:idcheck");
+		boolean result = userService.checkId(id);
+		
+		return result;
+	}
 	
 }

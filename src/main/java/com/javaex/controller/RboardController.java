@@ -23,7 +23,7 @@ public class RboardController {
 	@Autowired
 	private RboardService rService;
 	
-	
+	//글전체 리스트
 	@RequestMapping("/list" )
 	public String list(@RequestParam("page") int page, Model model) {
 		System.out.println("컨트롤러:리스트");
@@ -36,6 +36,7 @@ public class RboardController {
 		return "rboard/list";
 	}
 	
+	//게시물 읽기
 	@RequestMapping("/read" )
 	public String read(@RequestParam("no") int no, Model model) {
 		System.out.println("컨트롤러:글 읽기");
@@ -83,5 +84,32 @@ public class RboardController {
 		rService.write(rVo, "reWrite");
 		
 		return "redirect:/rboard/list?page=1";
+	}
+	
+	//수정폼 이동
+	@RequestMapping("/modifyForm")
+	public String modifyForm(@RequestParam("no") int no, Model model) {
+		System.out.println("컨트롤러:수정폼");
+		
+		RboardVo rVo = rService.read(no,"modify");
+		model.addAttribute("no", rVo);
+		
+		System.out.println(rVo.toString());
+		return"rboard/modifyForm";
+	}
+	
+	//수정하기
+	@RequestMapping("/modify")
+	public String modify(@ModelAttribute RboardVo rVo, HttpSession hs) {
+		System.out.println("컨트롤러:수정");
+		UserVo authUser =  (UserVo) hs.getAttribute("authUser");
+		int userNo = authUser.getNo();
+		rVo.setUser_no(userNo);
+		
+		rService.modify(rVo);
+		
+		System.out.println("컨트"+rVo.toString());
+		
+		return"redirect:/rboard/list?page=1";
 	}
 }

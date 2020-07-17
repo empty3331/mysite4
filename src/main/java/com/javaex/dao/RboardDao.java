@@ -63,4 +63,11 @@ public class RboardDao {
 		
 		return sqlSession.update("rboard.rodernum", oMap);
 	}
+
+	//수정하기
+	public int modify(RboardVo rVo) {
+		System.out.println("다오:글 수정하기");
+		System.out.println("다오"+rVo.toString());
+		return sqlSession.update("rboard.update",rVo);
+	}
 }

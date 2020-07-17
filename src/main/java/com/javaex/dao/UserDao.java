@@ -30,6 +30,14 @@ public class UserDao {
 			return sqlSession.update("user.update",userVo);
 		}
 
+		//아이디체크(ajax)
+		public UserVo selectUser2(String id) {
+			System.out.println("userDao:selectUser");
+		
+			UserVo uVo = sqlSession.selectOne("user.selectById",id);
+			
+			return uVo;
+		}
 		
 		
 }
