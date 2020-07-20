@@ -39,6 +39,22 @@ public class GuestBookDao {
 			int count = sqlSession.delete("guestbook.delete", gMap );
 			return count;
 		}
+		
+		
+		
+		//방명록 글 저장(ajax)
+		public void insert(GuestBookVo gbVo) {
+			System.out.println(gbVo.toString());//no값 없음;
+			sqlSession.insert("guestbook.insertSelectKey", gbVo);
+			System.out.println(gbVo.toString());//no값 있음;
+			
+		}
+		
+		//글가져오기(ajax)
+		public GuestBookVo seletByNo(int no) {
+			return sqlSession.selectOne("guestbook.selectByNo", no);
+			
+		}
 	
 
 }

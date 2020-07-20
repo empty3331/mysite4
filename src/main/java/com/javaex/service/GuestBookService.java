@@ -47,6 +47,19 @@ public class GuestBookService {
 		System.out.println(count);
 		return count;
 	}
+
+	
+	//방명록 글 저장(ajax)
+	public GuestBookVo addGuest(GuestBookVo gbVo) {
+		//저장
+		gbDao.insert(gbVo);
+		int no = gbVo.getNo();//연구해볼것
+		System.out.println("no값"+no);
+		
+		//저장한 데이터 가져오기
+		return gbDao.seletByNo(no);
+	}
+	
 	
 	
 }

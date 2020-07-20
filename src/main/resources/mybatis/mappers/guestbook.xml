@@ -38,5 +38,31 @@
 		 ]]>
 	</delete>
 	
+	<!-- 방명록 글저장 -->
+	<insert id="insertSelectKey" parameterType="com.javaex.vo.GuestBookVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+		  select seq_guestbook_id.nextval from dual
+		</selectKey>
+	  <![CDATA[
+		INSERT INTO guestbook
+		VALUES (#{no},#{name},#{password},#{content},SYSDATE)
+	  ]]>
+
+	</insert>
+	
+	<!--자신이 등록한 글 가져오기 ajax-->
+	<select id="selectByNo" parameterType="int"
+	resultType="com.javaex.vo.GuestBookVo">
+	  <![CDATA[
+		SELECT no,
+				name,
+				password,
+				content,
+				req_date "date"
+			FROM guestbook
+			where no = #{no}
+	  ]]>
+	</select>
+	
 
 </mapper>

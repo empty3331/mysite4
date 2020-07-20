@@ -8,12 +8,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+
 
 <link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/guestbook.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
 
 </head>
+
+
+
 
 <body>
 	<div id="wrap">
@@ -40,7 +47,7 @@
             <!-- //content-head -->
 
 			<div id="guestbook">
-				<form action="${pageContext.request.contextPath}/guest/add" method="get">
+				<!--<form action="" method="">  -->
 					<table id="guestAdd">
 						<colgroup>
 							<col style="width: 70px;">
@@ -59,14 +66,15 @@
 								<td colspan="4"><textarea name="content" cols="72" rows="5"></textarea></td>
 							</tr>
 							<tr class="button-area">
-								<td colspan="4"><button type="submit">등록</button></td>
+								<td colspan="4"><button id="btnSubmit" type="submit">등록</button></td>
 							</tr>
 						</tbody>
 						
 					</table>
+					<button id="test" type="submit">모달테스트</button>
 					<!-- //guestWrite -->
 					
-				</form>	
+				<!--</form>-->	
 				
 				<div id="guestbookListArea"></div>
 				
@@ -85,6 +93,27 @@
 	</div>
 	<!-- //wrap -->
 
+
+<!-- 삭제팝업(모달)창 -->
+	<div class="modal fade" id="delModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">방명록삭제</h4>
+				</div>
+				<div class="modal-body">
+					<label>비밀번호</label>
+					<input type="password" name="modalPassword" id="modalPassword"><br>	
+					<input type="text" name="modalNo" value="" id="modalNo"> <br>	
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-danger" id="btnDel">삭제</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 </body>
 
 <script type="text/javascript">
@@ -95,55 +124,167 @@ $(document).ready(function(){
 });
 
 
-//전체리스트 불러오기
-function fetchList(){
+//삭제버튼 클릭할때
+$("#guestbookListArea").on("click","a",function(){
+	
+	console.log("리스트 지역 클릭");
+	event.preventDefault();//a태그 기본기능 막음
+	
+	var $this = $(this)
+	var no = $this.data("delno");
+	console.log(no);
+	
+	//no값 모달창에 입력
+	$("#modalNo").val(no);
+	//input에 값 비우기
+	$("#modalPassword").val("");
+			
+	//모달창 보이기
+	$("#delModal").modal();
+	
+});
+
+//모달창 삭제버튼 클릭할때
+$("#btnDel").on("click",function(){
+	console.log("모달창 삭제버튼");
+	
+	//데이터수집
+	var password = $("#modalPassword").val();
+	var no = $("#modalNo").val();
+	
+	
+	//데이터전송
 	$.ajax({
-		
-		url : "${pageContext.request.contextPath }/api/guest/list",		
+
+		url : "${pageContext.request.contextPath }/api/guest/delete",
 		type : "post",
 		//contentType : "application/json",
-		//data : {name: ”홍길동"},
+		data : {password: password, no: no},
 
 		dataType : "json",
-		success : function(gbVo){
-			console.log(gbVo);
+		success : function(count) {
+		
 			/*성공시 처리해야될 코드 작성*/
-			//$("#guestbookListArea").html("");
-			for(var i=0; i<gbVo.length; i++){
-				render(gbVo[i]);
+			console.log(count);
+			if(count==1){
+				//모달창 닫고
+				$("#delModal").modal("hide");
+				//리스트 지우기
+				console.log(no);
+				console.log($("#t-"+no));
+				
+				$("#t-"+no).remove();
+				
+			} else{
+				//모달창 닫기
+				$("#delModal").modal("hide");
 			}
+			
 		},
 		error : function(XHR, status, error) {
 			console.error(status + " : " + error);
 		}
 	});
 	
-}
+});
 
-//리스트 그리기(1개씩)
-function render(gbVo) {
-	var str = "";
-	str +="<table class = 'guestRead'>";
-	str +=" <colgroup>";
-	str +="  <col style='width: 10%;'>";
-	str +="  <col style='width: 40%;'>";
-	str +="  <col style='width: 40%;'>";
-	str +="  <col style='width: 10%;'>";
-	str +=" </colgroup>";
-	str +=" <tr>";
-	str +="  <td>"+gbVo.no+"</td>";
-	str +="  <td>"+gbVo.name+"</td>";
-	str +="  <td>"+gbVo.date+"</td>";
-	str +="  <td><a href='${pageContext.request.contextPath }/guest/deleteForm?no=$"+gbVo.no+"'>[삭제]</a></td>";
-	str +=" </tr>";
-	str +=" <tr>";
-	str +="  <td colspan=4 class='text-left'>"+gbVo.content+"</td>";
-	str +=" </tr>";
-	str +="</table>";
+
+//글쓰기 클릭이벤트
+$("#btnSubmit").on("click",function(){
+	//이벤트체크
+	console.log("글쓰기버튼");
+	//event.prventDefault();
 	
-	$("#guestbookListArea").append(str);
-}
+	//데이터 수집
+	var uname = $("#input-uname").val();
+	var pass = $("#input-pass").val();
+	var content = $("[name = 'content']").val();
+	
+	var guestbookVo = {
+			name: uname, 
+			password: pass, 
+			content: content };
+	console.log(guestbookVo);
+	
+	
+	//데이터전송
+	$.ajax({
 
+			url : "${pageContext.request.contextPath }/api/guest/write",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(guestbookVo),
+
+			dataType : "json",
+			success : function(guestbookVo) {
+				console.log(guestbookVo);
+				/*성공시 처리해야될 코드 작성*/
+				render(guestbookVo,"up");
+				$("#input-uname").val("");
+				$("#input-pass").val("");
+				$("[name = 'content']").val("");
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+
+	});
+
+	//전체리스트 불러오기
+	function fetchList() {
+		$.ajax({
+
+			url : "${pageContext.request.contextPath }/api/guest/list",
+			type : "post",
+			//contentType : "application/json",
+			//data : {name: ”홍길동"},
+
+			dataType : "json",
+			success : function(gbVo) {
+				console.log(gbVo);
+				/*성공시 처리해야될 코드 작성*/
+				//$("#guestbookListArea").html("");
+				for (var i = 0; i < gbVo.length; i++) {
+					render(gbVo[i],"down");
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+
+	}
+
+	//리스트 그리기(1개씩)
+	function render(gbVo,direction) {
+		var str = "";
+		str += "<table id='t-"+gbVo.no+"' class = 'guestRead'>";
+		str += " <colgroup>";
+		str += "  <col style='width: 10%;'>";
+		str += "  <col style='width: 40%;'>";
+		str += "  <col style='width: 40%;'>";
+		str += "  <col style='width: 10%;'>";
+		str += " </colgroup>";
+		str += " <tr>";
+		str += "  <td>" + gbVo.no + "</td>";
+		str += "  <td>" + gbVo.name + "</td>";
+		str += "  <td>" + gbVo.date + "</td>";
+		str += "  <td><a href='' data-delno= '"+gbVo.no+"'>[삭제]</a></td>";
+		str += " </tr>";
+		str += " <tr>";
+		str += "  <td colspan=4 class='text-left'>" + gbVo.content + "</td>";
+		str += " </tr>";
+		str += "</table>";
+
+		if(direction== "up"){
+			$("#guestbookListArea").prepend(str);
+		}else if(direction== "down") {
+			$("#guestbookListArea").append(str);
+		} else{ console.log("없음");}
+		
+	}
 </script>
 
 
