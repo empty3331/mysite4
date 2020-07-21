@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns="http://www.springframework.org/schema/beans"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -10,13 +12,13 @@
 
 	<!-- annotation 설정을 하겠다. -->
 	<context:annotation-config />
-	
-	<!-- 
-	com.javaex.controller 패키지 밑에 있는 클래스 중에
-	@Controller를 달고 있는 클래스의 객체를 생성 하겠다. (new 하겠다)
-	 -->
-	<context:component-scan base-package="com.javaex.controller" />
-	<context:component-scan base-package="com.javaex.api.controller" />
+
+	<!-- com.javaex.controller 패키지 밑에 있는 클래스 중에 @Controller를 달고 있는 클래스의 객체를 
+		생성 하겠다. (new 하겠다) -->
+	<context:component-scan
+		base-package="com.javaex.controller" />
+	<context:component-scan
+		base-package="com.javaex.api.controller" />
 
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler />
@@ -31,7 +33,7 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
-	
+
 	<!-- json -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
@@ -45,6 +47,27 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	
+
+	<!-- 멀티파트 리졸버 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		<!-- 최대업로드 가능한 바이트크기 -->
+		<property name="maxUploadSize" value="52428800" />
+
+		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+		<property name="maxInMemorySize" value="52428800" />
+
+		<!-- defaultEncoding -->
+		<property name="defaultEncoding" value="utf-8" />
+
+	</bean>
+
+	<!-- url매핑 -->
+	<mvc:resources mapping="/upload/**"
+		location="file:C:/javaStudy/upload/" />
+
+
+
 
 </beans>

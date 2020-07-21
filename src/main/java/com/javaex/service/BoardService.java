@@ -23,8 +23,8 @@ public class BoardService {
 
 		Map<String,Object> listMap = new HashMap<>();
 		
-		listMap.put("start", 1+(page-1)*5 );
-		listMap.put("end", 1+(page-1)*5+(5-1));
+		listMap.put("start", 1+(page-1)*10 );
+		listMap.put("end", 1+(page-1)*10+(10-1));
 		listMap.put("keyword", keyword);
 		
 		List<BoardVo> bv = bDao.getBoardList(listMap);
@@ -40,9 +40,24 @@ public class BoardService {
 		
 		Map<String, Integer> cMap = new HashMap<>();
 		cMap.put("countAll", bDao.pageCount(keyword));
-		cMap.put("count", (int)Math.ceil(cMap.get("countAll")/5.0));
+		cMap.put("count", (int)Math.ceil(cMap.get("countAll")/10.0));
 		
-		System.out.println(cMap.toString());
+		 
+//		//마지막버튼
+//		int endBtn = (int)Math.ceil(cMap.get("countAll")/10.0)*10;
+//		//시작버튼
+//		int staBtn = endBtn-(10-1);
+//		
+//		//다음화살표 유무 next
+//		boolean next = false;
+//		if(endBtn*10< cMap.get("countAll")) {next = true;}
+//		else {endBtn = (int)Math.ceil(cMap.get("countAll")/10.0);}
+//		
+//		//이전화살표
+//		boolean prev = false;
+//		if(staBtn != 1) {prev = true;}
+//		
+//		System.out.println(endBtn+" "+staBtn);
 		
 		return cMap;
 		
