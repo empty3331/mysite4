@@ -59,8 +59,8 @@
 						
 						<!-- 이미지반복영역 -->
 						<c:forEach items="${gaVo }" var="gaVo" >
-							<li id="img-${gaVo.no}">							
-								<div class="view" data-no="${gaVo.no }">
+							<li >							
+								<div class="view" id="v-${gaVo.no}" data-imageno="${gaVo.no }">
 									<img class="imgItem" src="${pageContext.request.contextPath }/upload/${gaVo.saveName }">
 									<div class="imgWriter">작성자: <strong>${gaVo.name }</strong></div>
 								</div>
@@ -145,8 +145,8 @@
 					<button type="button" class="btn btn-danger" id="btnDel" data-no="">삭제</button>
 					
 				</div>
-					<input type="hidden" name="no" value="${no.no }" id="delNo">
-					<input type="hidden" name="uname1" id="uname1" value="${sessionScope.authUser.no }">
+					<input type="hidden" name="no" value="" id="delNo">
+
 				
 				</form>
 				
@@ -174,11 +174,11 @@ $(".view").on("click",function(){
 	$("#viewModal").modal();
 	
 	//데이터 수집
-	var no = $(this).data("no");
+	var no = $(this).data("imageno");
 	$("#delNo").val(no);
 	
 	console.log(no);
-	console.log($("#uname1").val());
+
 	
 	
 	//데이터전송
@@ -190,24 +190,24 @@ $(".view").on("click",function(){
 			data : {no: no},
 
 			dataType : "json",
-			success : function(no) {
+			success : function(vo) {
 				console.log(no);
 				/*성공시 처리해야될 코드 작성*/
-				var imgurl = "/mysite4/upload/"+no.saveName;
+				var imgurl = "/mysite4/upload/"+vo.saveName;
 				console.log(imgurl);
 				
 				//이미지 출력
 				$("#viewModelImg").attr("src", imgurl);
 				
 				//코멘트 출력
-				$("#viewModelContent").html(no.content);
+				$("#viewModelContent").html(vo.content);
 				
 				//버튼 출력(자신의 글일때만 삭제버튼 보이게 처리)
-				if($("#uname1").val() != no.user_no){
+				if("${authUser.no}" != vo.user_no){
 					$("#btnDel").hide();
 				}else {
 					$("#btnDel").show();
-					$("#btnDel").data("no", no);
+					
 				}
 				
 			},
@@ -224,24 +224,26 @@ $("#btnDel").on("click",function(){
 	console.log("삭제버튼 ");
 	
 	//데이터수집
-	var delno = $("#btnDel").data("no");
+	var no=$("#delNo").val();
 	
-	console.log(delno);
+	console.log(no);
+	
 	
 	//데이터 전송
 	$.ajax({
 		//보낼 때 옵션
 		url : "${pageContext.request.contextPath}/gallery/delete",
 		type : "post",
-		data : {delno: delno},
+		data : {no: no},
 		//받을 때 옵션
 		dataType : "json",
-		success : function(count) {
-			console.log(count);
+		success : function(cnt) {
+			console.log(no);
 			
-			if(count == 1){
+			if(cnt == 1){
 				//리스트 지우기
-				$("#img-"+delno).remove();
+				$("#v-"+no).remove();
+				console.log($("#v-"+no));
 			} 
 			
 			//모달창 닫기
@@ -251,6 +253,7 @@ $("#btnDel").on("click",function(){
 			console.error(status + " : " + error);
 		}
 	});
+	
 	
 });
 

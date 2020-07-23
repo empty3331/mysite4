@@ -44,7 +44,7 @@
 
 			<div id="user">
 				<div id="joinForm">
-					<form action="${pageContext.request.contextPath}/user/join" method="get">
+					<form id ="joinformagree" action="${pageContext.request.contextPath}/user/join" method="get">
 
 						<!-- 아이디 -->
 						<div class="form-group">
@@ -109,6 +109,29 @@
 </body>
 
 <script type="text/javascript">
+
+$("#joinformagree").on("submit",function(){
+	
+	var agree = $("#chk-agree").is(":checked");
+	
+	if(agree== true){
+		return true;
+		
+	}else{
+		alert("약관에 동의해주세요");
+		return false;
+	}
+	
+	
+});
+
+
+
+
+
+
+
+
 $("#btnIdCheck").on("click",function(){
 	console.log("클릭");
 	var uId = $("#input-uid").val();
